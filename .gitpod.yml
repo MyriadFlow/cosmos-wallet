@@ -1,0 +1,27 @@
+image:
+  file: .gitpod/Dockerfile
+tasks:
+  - name: golang live
+    init: |
+      go install gotest.tools/gotestsum@latest
+      go get
+
+    command: |
+      docker run --name="cosmos-wallet" --rm -d -p 5432:5432 \
+      -e POSTGRES_PASSWORD=cosmos-wallet \
+      -e POSTGRES_USER=cosmos-wallet \
+      -e POSTGRES_DB=cosmos-wallet \
+      postgres -c log_statement=all
+      sleep 12
+      gp sync-done db
+      cp .env-sample .env
+      air
+  
+  - name: postgres shell
+    command: |
+      gp sync-await db
+      docker exec -it cosmos-wallet psql -U cosmos-wallet
+    
+vscode:
+  extensions:
+    - golang.go

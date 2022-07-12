@@ -1,7 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"github.com/MyriadFlow/cosmos-wallet/app/stage/appinit"
+	"github.com/MyriadFlow/cosmos-wallet/pkg/logo"
+)
 
 func main() {
-	fmt.Println("Cosmos wallet")
+	appinit.Init()
+	logo.Info("Hello Cosmos")
 }

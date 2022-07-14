@@ -1,7 +1,6 @@
 image:
   file: .gitpod/Dockerfile
-workspaceLocation: cosmos-wallet.code-workspace
-checkoutLocation: cosmos-wallet
+workspaceLocation: cosmos-wallet/cosmos-wallet.code-workspace
 tasks:
   - init: |
       go install gotest.tools/gotestsum@latest

@@ -1,12 +1,12 @@
 image:
   file: .gitpod/Dockerfile
+workspaceLocation: cosmos-wallet.code-workspace
 tasks:
-  - init:
-      go install gotest.tools/gotestsum@latest
-
   - init: |
+      go install gotest.tools/gotestsum@latest
       cd custodial && go get && cd -
       cd sign-auth && go get && cd -
+      exit
   - name: "[custodial] golang live"
     command: |
       cd custodial

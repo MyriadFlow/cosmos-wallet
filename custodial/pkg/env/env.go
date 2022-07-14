@@ -3,7 +3,7 @@ package env
 import (
 	"os"
 
-	"github.com/MyriadFlow/cosmos-wallet/pkg/logo"
+	"github.com/MyriadFlow/cosmos-wallet/custodial/pkg/logo"
 )
 
 func MustGetEnv(key string) string {

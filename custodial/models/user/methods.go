@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/MyriadFlow/cosmos-wallet/pkg/blockchain_cosmos"
+	"github.com/MyriadFlow/cosmos-wallet/custodial/pkg/blockchain_cosmos"
 
 	"github.com/google/uuid"
 )

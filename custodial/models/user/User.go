@@ -3,18 +3,18 @@ package user
 import (
 	"fmt"
 
-	"github.com/MyriadFlow/cosmos-wallet/pkg/errorso"
-	"github.com/MyriadFlow/cosmos-wallet/pkg/store"
+	"github.com/MyriadFlow/cosmos-wallet/custodial/pkg/errorso"
+	"github.com/MyriadFlow/cosmos-wallet/custodial/pkg/store"
 )
 
-type User struct {
+type CustodialUser struct {
 	Id       string `json:"-" gorm:"primaryKey;not null"`
 	Mnemonic string `json:"-" gorm:"unique;not null"`
 }
 
 func Add(id string, mnemonic string) error {
 	db := store.DB
-	newUser := User{
+	newUser := CustodialUser{
 		Id:       id,
 		Mnemonic: mnemonic,
 	}
@@ -25,10 +25,10 @@ func Add(id string, mnemonic string) error {
 	}
 }
 
-func Get(id string) (*User, error) {
+func Get(id string) (*CustodialUser, error) {
 	db := store.DB
-	var user User
-	res := db.Find(&user, User{
+	var user CustodialUser
+	res := db.Find(&user, CustodialUser{
 		Id: id,
 	})
 

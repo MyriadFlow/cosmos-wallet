@@ -1,8 +1,8 @@
 package logoinit
 
 import (
-	"github.com/MyriadFlow/cosmos-wallet/pkg/environment"
-	"github.com/MyriadFlow/cosmos-wallet/pkg/logo"
+	"github.com/MyriadFlow/cosmos-wallet/custodial/pkg/environment"
+	"github.com/MyriadFlow/cosmos-wallet/custodial/pkg/logo"
 	"github.com/sirupsen/logrus"
 )
 

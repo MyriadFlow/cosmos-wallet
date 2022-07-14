@@ -3,7 +3,7 @@ package environment
 import (
 	"log"
 
-	"github.com/MyriadFlow/cosmos-wallet/pkg/env"
+	"github.com/MyriadFlow/cosmos-wallet/custodial/pkg/env"
 )
 
 type Environment int

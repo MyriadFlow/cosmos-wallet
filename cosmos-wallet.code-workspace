@@ -1,0 +1,14 @@
+{
+  "folders": [
+    {
+      "path": "."
+    },
+    {
+      "path": "custodial"
+    },
+    {
+      "path": "sign-auth"
+    }
+  ],
+  "settings": {}
+}

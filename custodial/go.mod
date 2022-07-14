@@ -1,4 +1,4 @@
-module github.com/MyriadFlow/cosmos-wallet
+module github.com/MyriadFlow/cosmos-wallet/custodial
 
 go 1.18
 

@@ -1,11 +1,23 @@
 image:
   file: .gitpod/Dockerfile
 tasks:
-  - name: golang live
-    init: |
+  - init:
       go install gotest.tools/gotestsum@latest
-      go get
 
+  - init: |
+      cd custodial && go get && cd -
+      cd sign-auth && go get && cd -
+  - name: "[custodial] golang live"
+    command: |
+      cd custodial
+      air
+
+  - name: "[sign-auth] golang live"
+    command: |
+      cd custodial
+      air
+  
+  - name: postgres
     command: |
       docker run --name="cosmos-wallet" --rm -d -p 5432:5432 \
       -e POSTGRES_PASSWORD=cosmos-wallet \
@@ -13,12 +25,6 @@ tasks:
       -e POSTGRES_DB=cosmos-wallet \
       postgres -c log_statement=all
       sleep 12
-      gp sync-done db
-      air
-  
-  - name: postgres shell
-    command: |
-      gp sync-await db
       docker exec -it cosmos-wallet psql -U cosmos-wallet
     
 vscode:

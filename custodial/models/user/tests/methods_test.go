@@ -3,8 +3,8 @@ package tests
 import (
 	"testing"
 
-	"github.com/MyriadFlow/cosmos-wallet/app/stage/appinit"
-	"github.com/MyriadFlow/cosmos-wallet/models/user"
+	"github.com/MyriadFlow/cosmos-wallet/custodial/app/stage/appinit"
+	"github.com/MyriadFlow/cosmos-wallet/custodial/models/user"
 	"github.com/stretchr/testify/assert"
 )
 

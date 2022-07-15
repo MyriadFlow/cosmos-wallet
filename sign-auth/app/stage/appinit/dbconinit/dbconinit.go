@@ -3,9 +3,9 @@ package dbconinit
 import (
 	"fmt"
 
-	"github.com/MyriadFlow/cosmos-wallet/custodial/pkg/env"
-	"github.com/MyriadFlow/cosmos-wallet/custodial/pkg/store"
 	"github.com/MyriadFlow/cosmos-wallet/helpers/logo"
+	"github.com/MyriadFlow/cosmos-wallet/sign-auth/pkg/env"
+	"github.com/MyriadFlow/cosmos-wallet/sign-auth/pkg/store"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )

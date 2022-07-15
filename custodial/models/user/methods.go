@@ -9,12 +9,13 @@ import (
 	"github.com/google/uuid"
 )
 
-func Create() (uid string, err error) {
+// Creates and stores mnemonic and returns user Id
+func Create() (string, error) {
 	mnemonic, err := blockchain_cosmos.GenerateMnemonic()
 	if err != nil {
 		return "", fmt.Errorf("failed to generate mnemonic: %w", err)
 	}
-	uid = uuid.NewString()
+	uid := uuid.NewString()
 
 	err = Add(uid, *mnemonic)
 	if err != nil {

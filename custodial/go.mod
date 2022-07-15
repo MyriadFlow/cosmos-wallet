@@ -14,6 +14,7 @@ require (
 
 require (
 	github.com/DataDog/zstd v1.4.5 // indirect
+	github.com/MyriadFlow/cosmos-wallet/helpers/logo v0.0.0-00010101000000-000000000000 // indirect
 	github.com/armon/go-metrics v0.3.10 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/btcsuite/btcd v0.22.0-beta.0.20220111032746-97732e52810c // indirect
@@ -92,5 +93,8 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 
 )
+
+// TODO remove replace
+replace github.com/MyriadFlow/cosmos-wallet/helpers/logo => ../helpers/logo
 
 replace github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.3-alpha.regen.1

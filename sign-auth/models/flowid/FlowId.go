@@ -1,6 +1,8 @@
 package flowid
 
-import "github.com/MyriadFlow/cosmos-wallet/custodial/pkg/store"
+import (
+	"github.com/MyriadFlow/cosmos-wallet/sign-auth/pkg/store"
+)
 
 type FlowId struct {
 	WalletAddress string

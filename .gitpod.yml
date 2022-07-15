@@ -14,7 +14,7 @@ tasks:
 
   - name: "[sign-auth] golang live"
     command: |
-      cd custodial
+      cd sign-auth
       air
   
   - name: postgres

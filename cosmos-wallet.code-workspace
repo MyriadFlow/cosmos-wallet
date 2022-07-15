@@ -8,6 +8,9 @@
     },
     {
       "path": "sign-auth"
+    },
+    {
+      "path": "helpers/logo"
     }
   ],
   "settings": {}

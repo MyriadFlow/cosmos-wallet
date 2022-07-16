@@ -2,11 +2,20 @@ module github.com/MyriadFlow/cosmos-wallet/sign-auth
 
 go 1.18
 
-require github.com/cosmos/cosmos-sdk v0.45.6
+require (
+	github.com/MyriadFlow/cosmos-wallet/helpers/logo v0.0.0-00010101000000-000000000000
+	github.com/cosmos/cosmos-sdk v0.45.6
+	github.com/google/uuid v1.3.0
+	github.com/sirupsen/logrus v1.8.1
+	github.com/stretchr/testify v1.8.0
+	github.com/vk-rv/pvx v0.0.0-20210912195928-ac00bc32f6e7
+	golang.org/x/crypto v0.0.0-20210921155107-089bfa567519
+	gorm.io/driver/postgres v1.3.8
+	gorm.io/gorm v1.23.8
+)
 
 require (
 	github.com/DataDog/zstd v1.4.5 // indirect
-	github.com/MyriadFlow/cosmos-wallet/helpers/logo v0.0.0-00010101000000-000000000000 // indirect
 	github.com/armon/go-metrics v0.3.10 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/btcsuite/btcd v0.22.0-beta // indirect
@@ -27,7 +36,6 @@ require (
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/golang/snappy v0.0.3 // indirect
 	github.com/google/btree v1.0.0 // indirect
-	github.com/google/uuid v1.3.0 // indirect
 	github.com/gtank/merlin v0.1.1 // indirect
 	github.com/hashicorp/go-immutable-radix v1.3.1 // indirect
 	github.com/hashicorp/golang-lru v0.5.4 // indirect
@@ -58,14 +66,12 @@ require (
 	github.com/prometheus/common v0.32.1 // indirect
 	github.com/prometheus/procfs v0.7.3 // indirect
 	github.com/sasha-s/go-deadlock v0.2.1-0.20190427202633-1595213edefa // indirect
-	github.com/sirupsen/logrus v1.8.1 // indirect
 	github.com/spf13/afero v1.6.0 // indirect
 	github.com/spf13/cast v1.4.1 // indirect
 	github.com/spf13/cobra v1.4.0 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/spf13/viper v1.10.1 // indirect
-	github.com/stretchr/testify v1.8.0 // indirect
 	github.com/subosito/gotenv v1.2.0 // indirect
 	github.com/syndtr/goleveldb v1.0.1-0.20200815110645-5c35d600f0ca // indirect
 	github.com/tecbot/gorocksdb v0.0.0-20191217155057-f0fad39f321c // indirect
@@ -73,7 +79,6 @@ require (
 	github.com/tendermint/tendermint v0.34.19 // indirect
 	github.com/tendermint/tm-db v0.6.6 // indirect
 	go.etcd.io/bbolt v1.3.6 // indirect
-	golang.org/x/crypto v0.0.0-20210921155107-089bfa567519 // indirect
 	golang.org/x/net v0.0.0-20211208012354-db4efeb81f4b // indirect
 	golang.org/x/sys v0.0.0-20220114195835-da31bd327af9 // indirect
 	golang.org/x/text v0.3.7 // indirect
@@ -83,8 +88,6 @@ require (
 	gopkg.in/ini.v1 v1.66.2 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	gorm.io/driver/postgres v1.3.8 // indirect
-	gorm.io/gorm v1.23.8 // indirect
 )
 
 // TODO remove replace

@@ -3,6 +3,7 @@ module github.com/MyriadFlow/cosmos-wallet/custodial
 go 1.18
 
 require (
+	github.com/MyriadFlow/cosmos-wallet/helpers/logo v0.0.0-00010101000000-000000000000
 	github.com/cosmos/cosmos-sdk v0.45.6
 	github.com/google/uuid v1.3.0
 	github.com/sirupsen/logrus v1.8.1
@@ -14,7 +15,6 @@ require (
 
 require (
 	github.com/DataDog/zstd v1.4.5 // indirect
-	github.com/MyriadFlow/cosmos-wallet/helpers/logo v0.0.0-00010101000000-000000000000 // indirect
 	github.com/armon/go-metrics v0.3.10 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/btcsuite/btcd v0.22.0-beta.0.20220111032746-97732e52810c // indirect

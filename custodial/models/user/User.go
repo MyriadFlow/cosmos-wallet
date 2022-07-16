@@ -18,11 +18,8 @@ func Add(id string, mnemonic string) error {
 		Id:       id,
 		Mnemonic: mnemonic,
 	}
-	if err := db.Model(&newUser).Create(&newUser).Error; err != nil {
-		return err
-	} else {
-		return nil
-	}
+	err := db.Model(&newUser).Create(&newUser).Error
+	return err
 }
 
 func Get(id string) (*CustodialUser, error) {

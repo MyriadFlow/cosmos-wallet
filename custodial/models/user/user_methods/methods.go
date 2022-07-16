@@ -1,9 +1,10 @@
-package user
+package usermethods
 
 import (
 	"errors"
 	"fmt"
 
+	"github.com/MyriadFlow/cosmos-wallet/custodial/models/user"
 	"github.com/MyriadFlow/cosmos-wallet/custodial/pkg/blockchain_cosmos"
 
 	"github.com/google/uuid"
@@ -17,7 +18,7 @@ func Create() (string, error) {
 	}
 	uid := uuid.NewString()
 
-	err = Add(uid, *mnemonic)
+	err = user.Add(uid, *mnemonic)
 	if err != nil {
 		return "", fmt.Errorf("failed to add user into database: %w", err)
 	}

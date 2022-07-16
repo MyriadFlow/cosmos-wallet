@@ -1,4 +1,4 @@
-package tests
+package usermethods
 
 import (
 	"testing"
@@ -15,7 +15,7 @@ func Test_Create_Get(t *testing.T) {
 		err error
 	)
 	t.Run("create user", func(t *testing.T) {
-		uid, err = user.Create()
+		uid, err = Create()
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -31,7 +31,7 @@ func Test_Create_Get(t *testing.T) {
 	})
 
 	t.Run("transfer atom", func(t *testing.T) {
-		err = user.Transfer(uid, "cosmos1uuyak34fv767a65k9f4ms8jepcc2z5wswt5eg8", "cosmos1uuyak34fv767a65k9f4ms8jepcc2z5wswt5eg8", 1)
+		err = Transfer(uid, "cosmos1uuyak34fv767a65k9f4ms8jepcc2z5wswt5eg8", "cosmos1uuyak34fv767a65k9f4ms8jepcc2z5wswt5eg8", 1)
 		if err != nil {
 			t.Fatal(err)
 		}

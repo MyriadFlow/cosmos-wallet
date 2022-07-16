@@ -8,9 +8,8 @@ import (
 )
 
 func Migrate() {
-
 	db := store.DB
-	err := db.AutoMigrate(&flowid.FlowId{}, &user.User{})
+	err := db.AutoMigrate(&user.User{}, &flowid.FlowId{})
 	if err != nil {
 		logo.Fatalf("failed to migrate user into database: %s", err)
 	}

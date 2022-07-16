@@ -21,7 +21,7 @@ func Test_VerifyArbitraryMsg(t *testing.T) {
 		log.Fatal("failed to get byte sign from hex: ", err)
 	}
 	pubKey := secp256k1.PubKey{Key: bytePubKey}
-	stat, err := VerifyArbitraryMsg("max", byteSignature, pubKey)
+	stat, err := VerifyArbitraryMsg("cosmos1uuyak34fv767a65k9f4ms8jepcc2z5wswt5eg8", "max", byteSignature, pubKey)
 	if err != nil {
 		t.Fatal(err)
 	}

@@ -1,7 +1,10 @@
 package blockchain_cosmos
 
 import (
+	"fmt"
+
 	"github.com/cosmos/cosmos-sdk/crypto/hd"
+	"github.com/cosmos/cosmos-sdk/crypto/keys/secp256k1"
 	"github.com/cosmos/cosmos-sdk/types"
 	"github.com/tyler-smith/go-bip39"
 )
@@ -19,6 +22,14 @@ func GenerateMnemonic() (*string, error) {
 	return &mnemonic, nil
 }
 
-func GetWallet(mnemonic string) ([]byte, error) {
-	return hd.Secp256k1.Derive()(mnemonic, "", types.FullFundraiserPath)
+//TODO: confirm it - Returns private key for given mnemonic and path in cosmos sdk ("github.com/cosmos/cosmos-sdk/types").FullFundraiserPath
+func GetWallet(mnemonic string) (*secp256k1.PrivKey, error) {
+	privKeyBytes, err := hd.Secp256k1.Derive()(mnemonic, "", types.FullFundraiserPath)
+	if err != nil {
+		return nil, fmt.Errorf("failed to derive private key from mnemonic: %w", err)
+	}
+	privKey := secp256k1.PrivKey{
+		Key: privKeyBytes,
+	}
+	return &privKey, nil
 }

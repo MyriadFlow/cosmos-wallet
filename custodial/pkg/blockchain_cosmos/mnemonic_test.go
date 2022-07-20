@@ -15,5 +15,5 @@ func Test_GetWalletAddr(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	assert.Equal(t, expectedHexPrivKey, hex.EncodeToString(privKey))
+	assert.Equal(t, expectedHexPrivKey, hex.EncodeToString(privKey.Bytes()))
 }

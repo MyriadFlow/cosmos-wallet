@@ -23,7 +23,7 @@ tasks:
       -e POSTGRES_PASSWORD=cosmos-wallet \
       -e POSTGRES_USER=cosmos-wallet \
       -e POSTGRES_DB=cosmos-wallet \
-      postgres -c log_statement=all
+      postgres:14 -c log_statement=all
       sleep 12
       docker exec -it cosmos-wallet psql -U cosmos-wallet
     

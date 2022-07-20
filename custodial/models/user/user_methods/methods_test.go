@@ -6,12 +6,15 @@ import (
 
 	"github.com/MyriadFlow/cosmos-wallet/custodial/app/stage/appinit"
 	"github.com/MyriadFlow/cosmos-wallet/custodial/models/user"
+	"github.com/MyriadFlow/cosmos-wallet/custodial/pkg/testingcommon"
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
+	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 )
 
 func Test_Create_Get(t *testing.T) {
 	appinit.Init()
+	t.Cleanup(testingcommon.DeleteCreatedEntities())
 	var (
 		uid    string
 		err    error
@@ -37,7 +40,12 @@ func Test_Create_Get(t *testing.T) {
 	})
 
 	t.Run("transfer atom", func(t *testing.T) {
-		err = Transfer(uid, "cosmos1uuyak34fv767a65k9f4ms8jepcc2z5wswt5eg8", "cosmos1uuyak34fv767a65k9f4ms8jepcc2z5wswt5eg8", 1)
+		//TODO use own node?
+		uid = uuid.NewString()
+		// mnemonic with balance for testing transfer
+		mnemonic := "envelope rebel nerve sock change animal such hero pave bomb coffee invest misery detect enhance muffin stable bundle ski equal have shadow seed arena"
+		user.Add(uid, mnemonic)
+		err = Transfer(uid, "cosmos1fzqqen9f9jwsc6x5v7hltdm4ctxhvpdvna8n3p", "cosmos1uuyak34fv767a65k9f4ms8jepcc2z5wswt5eg8", 1)
 		if err != nil {
 			t.Fatal(err)
 		}

@@ -115,7 +115,7 @@ func Transfer(uid string, from string, to string, amount int64) error {
 	}
 	jsonBody := fmt.Sprintf(`{
 	"jsonrpc": "2.0",
-	"id": "-1",
+	"id": "1",
 	"method": "check_tx",
 	"params": {
 	  "tx": "%s"

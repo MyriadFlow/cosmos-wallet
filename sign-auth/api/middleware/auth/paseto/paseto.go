@@ -46,7 +46,6 @@ func PASETO(c *gin.Context) {
 				return
 			}
 		}
-		//TODO test
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			c.AbortWithStatus(http.StatusUnauthorized)
 			return

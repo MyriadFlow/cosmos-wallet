@@ -22,13 +22,12 @@ import (
 
 func Test_PASETO(t *testing.T) {
 	appinit.Init()
-	//TODO package to set env if not set for testing
 	db := store.DB
 	t.Cleanup(testingcommon.DeleteCreatedEntities())
 	gin.SetMode(gin.TestMode)
-	testWalletAddress := "cosmos1v7lktr9l6vx7sqz5wc9t0v0dq7gsn2zglkn9vx"
+	testWallet := testingcommon.GenerateWallet()
 	newUser := user.User{
-		WalletAddress: testWalletAddress,
+		WalletAddress: testWallet.WalletAddress,
 	}
 	err := db.Model(&user.User{}).Create(&newUser).Error
 	if err != nil {
@@ -36,7 +35,7 @@ func Test_PASETO(t *testing.T) {
 	}
 
 	t.Run("Should return 200 with correct PASETO", func(t *testing.T) {
-		token, err := paseto.GetPasetoForUser(testWalletAddress)
+		token, err := paseto.GetPasetoForUser(testWallet.WalletAddress)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -46,7 +45,7 @@ func Test_PASETO(t *testing.T) {
 
 	t.Run("Should return 401 with incorret PASETO", func(t *testing.T) {
 		os.Setenv("PASETO_PRIVATE_KEY", "some invalid token")
-		token, err := paseto.GetPasetoForUser(testWalletAddress)
+		token, err := paseto.GetPasetoForUser(testWallet.WalletAddress)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -55,8 +54,19 @@ func Test_PASETO(t *testing.T) {
 		assert.Equal(t, http.StatusUnauthorized, rr.Result().StatusCode)
 	})
 
+	t.Run("Should return 401 for deleted user", func(t *testing.T) {
+		// Non existance wallet addr in database
+		nonExistanceWallet := testingcommon.GenerateWallet()
+		token, err := paseto.GetPasetoForUser(nonExistanceWallet.WalletAddress)
+		if err != nil {
+			t.Fatal(err)
+		}
+		rr := callApi(t, token)
+		assert.Equal(t, http.StatusUnauthorized, rr.Result().StatusCode)
+	})
+
 	t.Run("Should return 401 and 4011 with expired PASETO", func(t *testing.T) {
-		token, err := testingcommon.GetPasetoForTestUser(testWalletAddress, 2*time.Second)
+		token, err := testingcommon.GetPasetoForTestUser(testWallet.WalletAddress, 2*time.Second)
 		if err != nil {
 			t.Fatal(err)
 		}

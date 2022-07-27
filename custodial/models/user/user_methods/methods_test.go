@@ -2,10 +2,12 @@ package usermethods
 
 import (
 	"encoding/base64"
+	"encoding/hex"
 	"testing"
 
 	"github.com/MyriadFlow/cosmos-wallet/custodial/app/stage/appinit"
 	"github.com/MyriadFlow/cosmos-wallet/custodial/models/user"
+	"github.com/MyriadFlow/cosmos-wallet/custodial/pkg/store"
 	"github.com/MyriadFlow/cosmos-wallet/custodial/pkg/testingcommon"
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
 	"github.com/google/uuid"
@@ -44,8 +46,16 @@ func Test_Create_Get(t *testing.T) {
 		uid = uuid.NewString()
 		// mnemonic with balance for testing transfer
 		mnemonic := "envelope rebel nerve sock change animal such hero pave bomb coffee invest misery detect enhance muffin stable bundle ski equal have shadow seed arena"
+		//Clean before since the wallet address is not generated
+		db := store.DB
+		hexMnemonic := "0x" + hex.EncodeToString([]byte(mnemonic))
+		delRes := db.Where("mnemonic = ?", hexMnemonic).Delete(&user.CustodialUser{})
+		if delRes.Error != nil {
+			t.Fatal(err)
+		}
+
 		user.Add(uid, mnemonic)
-		err = Transfer(uid, "cosmos1fzqqen9f9jwsc6x5v7hltdm4ctxhvpdvna8n3p", "cosmos1uuyak34fv767a65k9f4ms8jepcc2z5wswt5eg8", 1)
+		_, err := Transfer(uid, "cosmos1fzqqen9f9jwsc6x5v7hltdm4ctxhvpdvna8n3p", "cosmos1uuyak34fv767a65k9f4ms8jepcc2z5wswt5eg8", 1)
 		if err != nil {
 			t.Fatal(err)
 		}

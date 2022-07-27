@@ -8,10 +8,10 @@ import (
 	"testing"
 	"time"
 
+	"github.com/MyriadFlow/cosmos-wallet/helpers/httpo"
 	"github.com/MyriadFlow/cosmos-wallet/sign-auth/app/stage/appinit"
 	"github.com/MyriadFlow/cosmos-wallet/sign-auth/models/user"
 	customstatuscodes "github.com/MyriadFlow/cosmos-wallet/sign-auth/pkg/constants/custom_status_codes"
-	"github.com/MyriadFlow/cosmos-wallet/sign-auth/pkg/httpo"
 	"github.com/MyriadFlow/cosmos-wallet/sign-auth/pkg/paseto"
 	"github.com/MyriadFlow/cosmos-wallet/sign-auth/pkg/store"
 	"github.com/MyriadFlow/cosmos-wallet/sign-auth/pkg/testingcommon"

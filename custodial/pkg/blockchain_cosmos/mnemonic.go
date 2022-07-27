@@ -5,7 +5,6 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/crypto/hd"
 	"github.com/cosmos/cosmos-sdk/crypto/keys/secp256k1"
-	"github.com/cosmos/cosmos-sdk/types"
 	"github.com/tyler-smith/go-bip39"
 )
 
@@ -24,7 +23,6 @@ func GenerateMnemonic() (*string, error) {
 
 //Returns private key for given mnemonic and cosmos path "m/44'/118'/0'/0/0"
 func GetWallet(mnemonic string) (*secp256k1.PrivKey, error) {
-	types.FullFundraiserPath
 	derivationPath := "m/44'/118'/0'/0/0"
 	privKeyBytes, err := hd.Secp256k1.Derive()(mnemonic, "", derivationPath)
 	if err != nil {

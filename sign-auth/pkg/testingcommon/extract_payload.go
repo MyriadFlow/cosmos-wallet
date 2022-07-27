@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 
-	"github.com/MyriadFlow/cosmos-wallet/sign-auth/pkg/httpo"
+	"github.com/MyriadFlow/cosmos-wallet/helpers/httpo"
 )
 
 // Converts map created by json decoder to struct

@@ -10,11 +10,11 @@ import (
 	"net/url"
 	"testing"
 
+	"github.com/MyriadFlow/cosmos-wallet/helpers/httpo"
 	"github.com/MyriadFlow/cosmos-wallet/helpers/logo"
 	"github.com/MyriadFlow/cosmos-wallet/sign-auth/api/v1/flowid"
 	"github.com/MyriadFlow/cosmos-wallet/sign-auth/app/stage/appinit"
 	arbitraryverify "github.com/MyriadFlow/cosmos-wallet/sign-auth/pkg/cosmos_blockchain/arbitrary_verify"
-	"github.com/MyriadFlow/cosmos-wallet/sign-auth/pkg/httpo"
 	"github.com/MyriadFlow/cosmos-wallet/sign-auth/pkg/testingcommon"
 
 	"github.com/gin-gonic/gin"

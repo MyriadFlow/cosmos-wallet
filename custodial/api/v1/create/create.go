@@ -2,9 +2,10 @@ package create
 
 import (
 	"encoding/base64"
+	"net/http"
 
 	usermethods "github.com/MyriadFlow/cosmos-wallet/custodial/models/user/user_methods"
-	"github.com/MyriadFlow/cosmos-wallet/custodial/pkg/httpo"
+	"github.com/MyriadFlow/cosmos-wallet/helpers/httpo"
 	"github.com/MyriadFlow/cosmos-wallet/helpers/logo"
 	"github.com/gin-gonic/gin"
 )
@@ -21,7 +22,7 @@ func create(c *gin.Context) {
 	pubKey, userId, err := usermethods.Create()
 	if err != nil {
 		logo.Errorf("failed to create user: %s", err)
-		httpo.NewInternalServerError(c, "failed to create user")
+		c.String(http.StatusInternalServerError, "failed to create user")
 		return
 	}
 
@@ -30,5 +31,7 @@ func create(c *gin.Context) {
 		UserId:    userId,
 		PublicKey: pubKeyBase64,
 	}
-	httpo.SuccessResponse(c, "Token generated successfully", payload)
+
+	httpo.NewSuccessResponse(http.StatusOK, "Token generated successfully", payload).
+		Send(c, http.StatusOK)
 }

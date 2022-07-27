@@ -6,7 +6,7 @@ import (
 	"net/http"
 
 	"github.com/MyriadFlow/cosmos-wallet/custodial/pkg/env"
-	"github.com/MyriadFlow/cosmos-wallet/custodial/pkg/httpo"
+	"github.com/MyriadFlow/cosmos-wallet/helpers/httpo"
 	"github.com/MyriadFlow/cosmos-wallet/helpers/logo"
 
 	"github.com/gin-gonic/gin"
@@ -28,14 +28,15 @@ func TOKENAUTH(c *gin.Context) {
 	}
 	if headers.Authorization == "" {
 		logValidationFailed(headers.Authorization, ErrAuthHeaderMissing)
-		httpo.ErrResponse(c, http.StatusBadRequest, ErrAuthHeaderMissing.Error())
+		//TODO custom status code and its documentation
+		httpo.NewErrorResponse(http.StatusBadRequest, ErrAuthHeaderMissing.Error()).Send(c, http.StatusBadRequest)
 		c.Abort()
 		return
 	}
 
 	if headers.Authorization != env.MustGetEnv("AUTH_TOKEN") {
 		logValidationFailed(headers.Authorization, ErrInvalidToken)
-		httpo.ErrResponse(c, http.StatusUnauthorized, ErrInvalidToken.Error())
+		httpo.NewErrorResponse(http.StatusUnauthorized, ErrInvalidToken.Error()).Send(c, http.StatusUnauthorized)
 		c.Abort()
 		return
 	}

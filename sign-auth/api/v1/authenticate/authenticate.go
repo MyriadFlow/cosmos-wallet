@@ -28,7 +28,6 @@ func authenticate(c *gin.Context) {
 		return
 	}
 
-	//TODO, check what to log
 	bytesPubKey, err := base64.StdEncoding.DecodeString(req.PublicKey)
 	if err != nil {
 		logo.Errorf("failed to decode base64 public key: %s", err)

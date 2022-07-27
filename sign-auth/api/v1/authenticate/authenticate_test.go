@@ -21,7 +21,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-// TODO: Write test to verify expiry
 func Test_PostAuthenticate(t *testing.T) {
 	appinit.Init()
 	t.Cleanup(testingcommon.DeleteCreatedEntities())

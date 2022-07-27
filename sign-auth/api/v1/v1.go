@@ -1,6 +1,7 @@
 package apiv1
 
 import (
+	pasetomiddleware "github.com/MyriadFlow/cosmos-wallet/sign-auth/api/middleware/auth/paseto"
 	authenticate "github.com/MyriadFlow/cosmos-wallet/sign-auth/api/v1/authenticate"
 	flowid "github.com/MyriadFlow/cosmos-wallet/sign-auth/api/v1/flowid"
 	"github.com/MyriadFlow/cosmos-wallet/sign-auth/api/v1/healthcheck"
@@ -12,6 +13,7 @@ import (
 func ApplyRoutes(r *gin.RouterGroup) {
 	v1 := r.Group("/v1.0")
 	{
+		v1.Use(pasetomiddleware.PASETO)
 		flowid.ApplyRoutes(v1)
 		authenticate.ApplyRoutes(v1)
 		healthcheck.ApplyRoutes(v1)

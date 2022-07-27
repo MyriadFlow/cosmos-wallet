@@ -11,6 +11,9 @@
     },
     {
       "path": "helpers/logo"
+    },
+    {
+      "path": "helpers/httpo"
     }
   ],
   "settings": {}

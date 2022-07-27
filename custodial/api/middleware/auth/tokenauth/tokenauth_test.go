@@ -14,7 +14,6 @@ import (
 
 func Test_TOKENAUTH(t *testing.T) {
 	appinit.Init()
-	//TODO package to set env if not set for testing
 	gin.SetMode(gin.TestMode)
 
 	t.Run("Should return 200 with correct TOKEN", func(t *testing.T) {

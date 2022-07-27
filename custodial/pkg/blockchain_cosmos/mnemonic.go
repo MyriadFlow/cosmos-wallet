@@ -22,9 +22,11 @@ func GenerateMnemonic() (*string, error) {
 	return &mnemonic, nil
 }
 
-//TODO: confirm it - Returns private key for given mnemonic and path in cosmos sdk ("github.com/cosmos/cosmos-sdk/types").FullFundraiserPath
+//Returns private key for given mnemonic and cosmos path "m/44'/118'/0'/0/0"
 func GetWallet(mnemonic string) (*secp256k1.PrivKey, error) {
-	privKeyBytes, err := hd.Secp256k1.Derive()(mnemonic, "", types.FullFundraiserPath)
+	types.FullFundraiserPath
+	derivationPath := "m/44'/118'/0'/0/0"
+	privKeyBytes, err := hd.Secp256k1.Derive()(mnemonic, "", derivationPath)
 	if err != nil {
 		return nil, fmt.Errorf("failed to derive private key from mnemonic: %w", err)
 	}

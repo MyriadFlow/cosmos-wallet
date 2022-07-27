@@ -42,7 +42,6 @@ func Test_Create_Get(t *testing.T) {
 	})
 
 	t.Run("transfer atom", func(t *testing.T) {
-		//TODO use own node?
 		uid = uuid.NewString()
 		// mnemonic with balance for testing transfer
 		mnemonic := "envelope rebel nerve sock change animal such hero pave bomb coffee invest misery detect enhance muffin stable bundle ski equal have shadow seed arena"

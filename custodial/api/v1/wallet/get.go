@@ -27,14 +27,14 @@ func getWallet(c *gin.Context) {
 	if err != nil {
 		logo.Errorf("failed to bind json: %s", err)
 		httpo.NewErrorResponse(http.StatusBadRequest, "request body is invalid").
-			Send(c, http.StatusBadGateway)
+			Send(c, http.StatusBadRequest)
 		return
 	}
 	userWallet, err := user.Get(req.UserId)
 
 	if err != nil {
 		if errors.Is(err, errorso.ErrRecordNotFound) {
-			httpo.NewErrorResponse(http.StatusNotFound, "user with given id not found").
+			httpo.NewErrorResponse(httpo.UserNotFound, "user with given id not found").
 				Send(c, http.StatusNotFound)
 			return
 		}
@@ -55,6 +55,6 @@ func getWallet(c *gin.Context) {
 	payload := GetWalletPayload{
 		PublicKey: pubKeyBase64,
 	}
-	httpo.NewSuccessResponse(http.StatusOK,  "User fetched successfully",payload).
-			Send(c, http.StatusOK)
+	httpo.NewSuccessResponse(http.StatusOK, "User fetched successfully", payload).
+		Send(c, http.StatusOK)
 }

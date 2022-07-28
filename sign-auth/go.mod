@@ -3,6 +3,7 @@ module github.com/MyriadFlow/cosmos-wallet/sign-auth
 go 1.18
 
 require (
+	github.com/MyriadFlow/cosmos-wallet/helpers/httpo v0.0.0-00010101000000-000000000000
 	github.com/MyriadFlow/cosmos-wallet/helpers/logo v0.0.0-00010101000000-000000000000
 	github.com/cosmos/cosmos-sdk v0.45.6
 	github.com/gin-contrib/cors v1.4.0
@@ -19,7 +20,6 @@ require (
 
 require (
 	github.com/DataDog/zstd v1.4.5 // indirect
-	github.com/MyriadFlow/cosmos-wallet/helpers/httpo v0.0.0-00010101000000-000000000000 // indirect
 	github.com/armon/go-metrics v0.3.10 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/btcsuite/btcd v0.22.0-beta // indirect

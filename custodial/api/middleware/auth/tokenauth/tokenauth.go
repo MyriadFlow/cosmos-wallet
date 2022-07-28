@@ -28,15 +28,14 @@ func TOKENAUTH(c *gin.Context) {
 	}
 	if headers.Authorization == "" {
 		logValidationFailed(headers.Authorization, ErrAuthHeaderMissing)
-		//TODO custom status code and its documentation
-		httpo.NewErrorResponse(http.StatusBadRequest, ErrAuthHeaderMissing.Error()).Send(c, http.StatusBadRequest)
+		httpo.NewErrorResponse(httpo.AuthHeaderMissing, ErrAuthHeaderMissing.Error()).Send(c, http.StatusBadRequest)
 		c.Abort()
 		return
 	}
 
 	if headers.Authorization != env.MustGetEnv("AUTH_TOKEN") {
 		logValidationFailed(headers.Authorization, ErrInvalidToken)
-		httpo.NewErrorResponse(http.StatusUnauthorized, ErrInvalidToken.Error()).Send(c, http.StatusUnauthorized)
+		httpo.NewErrorResponse(httpo.TokenInvalid, ErrInvalidToken.Error()).Send(c, http.StatusUnauthorized)
 		c.Abort()
 		return
 	}

@@ -32,7 +32,7 @@ func authenticate(c *gin.Context) {
 	bytesPubKey, err := base64.StdEncoding.DecodeString(req.PublicKey)
 	if err != nil {
 		logo.Errorf("failed to decode base64 public key: %s", err)
-		httpo.NewErrorResponse(http.StatusBadRequest, "failed to decode base64 public key").
+		httpo.NewErrorResponse(httpo.InvalidBase64, "failed to decode base64 public key").
 			Send(c, http.StatusBadRequest)
 		return
 	}
@@ -45,8 +45,9 @@ func authenticate(c *gin.Context) {
 		logo.Errorf("failed to get paseto: %s", err)
 
 		if errors.Is(err, flowidmethods.ErrSignDenied) {
-			httpo.NewErrorResponse(http.StatusUnauthorized, "signature denied").
+			httpo.NewErrorResponse(httpo.SignatureDenied, "signature denied").
 				Send(c, http.StatusUnauthorized)
+			return
 		}
 		httpo.NewErrorResponse(500, "failed to verify and get paseto").Send(c, 500)
 		return

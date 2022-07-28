@@ -11,7 +11,6 @@ import (
 	"github.com/MyriadFlow/cosmos-wallet/helpers/httpo"
 	"github.com/MyriadFlow/cosmos-wallet/sign-auth/app/stage/appinit"
 	"github.com/MyriadFlow/cosmos-wallet/sign-auth/models/user"
-	customstatuscodes "github.com/MyriadFlow/cosmos-wallet/sign-auth/pkg/constants/custom_status_codes"
 	"github.com/MyriadFlow/cosmos-wallet/sign-auth/pkg/paseto"
 	"github.com/MyriadFlow/cosmos-wallet/sign-auth/pkg/store"
 	"github.com/MyriadFlow/cosmos-wallet/sign-auth/pkg/testingcommon"
@@ -80,7 +79,7 @@ func Test_PASETO(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		assert.Equal(t, customstatuscodes.TokenExpired, response.StatusCode)
+		assert.Equal(t, httpo.TokenExpired, response.StatusCode)
 	})
 
 }

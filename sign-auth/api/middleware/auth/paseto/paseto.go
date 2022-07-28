@@ -7,7 +7,6 @@ import (
 
 	"github.com/MyriadFlow/cosmos-wallet/helpers/httpo"
 	"github.com/MyriadFlow/cosmos-wallet/helpers/logo"
-	customstatuscodes "github.com/MyriadFlow/cosmos-wallet/sign-auth/pkg/constants/custom_status_codes"
 	"github.com/MyriadFlow/cosmos-wallet/sign-auth/pkg/paseto"
 	"github.com/vk-rv/pvx"
 	"gorm.io/gorm"
@@ -30,7 +29,7 @@ func PASETO(c *gin.Context) {
 	}
 	if headers.Authorization == "" {
 		logValidationFailed(headers.Authorization, ErrAuthHeaderMissing)
-		httpo.NewErrorResponse(http.StatusBadRequest, ErrAuthHeaderMissing.Error()).Send(c, http.StatusBadRequest)
+		httpo.NewErrorResponse(httpo.AuthHeaderMissing, ErrAuthHeaderMissing.Error()).Send(c, http.StatusBadRequest)
 		c.Abort()
 		return
 	}
@@ -41,7 +40,7 @@ func PASETO(c *gin.Context) {
 			if validationErr.HasExpiredErr() {
 				err = fmt.Errorf("failed to scan claims for paseto token, %s", err)
 				logValidationFailed(headers.Authorization, err)
-				httpo.NewErrorResponse(customstatuscodes.TokenExpired, "token expired").Send(c, http.StatusUnauthorized)
+				httpo.NewErrorResponse(httpo.TokenExpired, "token expired").Send(c, http.StatusUnauthorized)
 				c.Abort()
 				return
 			}

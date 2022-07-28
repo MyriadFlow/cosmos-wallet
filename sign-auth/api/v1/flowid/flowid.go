@@ -33,7 +33,7 @@ func GetFlowId(c *gin.Context) {
 	_, _, err := bech32.DecodeAndConvert(walletAddress)
 	if err != nil {
 		log.Errorf("failed to decode bech32 wallet address %s: %s", walletAddress, err)
-		httpo.NewErrorResponse(http.StatusBadRequest, "failed to parse bech32 Wallet address (walletAddress)").Send(c, http.StatusBadRequest)
+		httpo.NewErrorResponse(httpo.WalletAddressInvalid, "failed to parse bech32 Wallet address (walletAddress)").Send(c, http.StatusBadRequest)
 		return
 	}
 

@@ -1,3 +1,4 @@
+![myriad-flow-x-assetmantle_auto_x2](https://user-images.githubusercontent.com/51229945/181774432-369d1722-18dc-46dd-a59b-89f76e3c1fe2.jpg)
 # Cosmos Network
 
 Wallet modules for Cosmos Network - AssetMantle

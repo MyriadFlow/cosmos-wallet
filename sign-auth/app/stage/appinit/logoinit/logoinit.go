@@ -1,3 +1,4 @@
+// Package logoinit provides method to Init loging config
 package logoinit
 
 import (

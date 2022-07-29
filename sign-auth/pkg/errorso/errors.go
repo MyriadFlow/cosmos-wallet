@@ -1,3 +1,4 @@
+// Package errorso provides common error declarations
 package errorso
 
 import "errors"

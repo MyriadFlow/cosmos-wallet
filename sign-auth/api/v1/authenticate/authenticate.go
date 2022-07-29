@@ -1,3 +1,4 @@
+// Package authenticate provides Api to authenticate user wallet address by verifying signature agaist EULA and flowid
 package authenticate
 
 import (
@@ -29,6 +30,7 @@ func authenticate(c *gin.Context) {
 		return
 	}
 
+	// Decode public key from base64
 	bytesPubKey, err := base64.StdEncoding.DecodeString(req.PublicKey)
 	if err != nil {
 		logo.Errorf("failed to decode base64 public key: %s", err)
@@ -40,21 +42,27 @@ func authenticate(c *gin.Context) {
 	pubKey := secp256k1.PubKey{
 		Key: bytesPubKey,
 	}
+
 	pasetoToken, err := flowidmethods.VerifySignAndGetPaseto(pubKey, req.Signature, req.FlowId)
 	if err != nil {
 		logo.Errorf("failed to get paseto: %s", err)
 
+		// If signature denied
 		if errors.Is(err, flowidmethods.ErrSignDenied) {
 			httpo.NewErrorResponse(httpo.SignatureDenied, "signature denied").
 				Send(c, http.StatusUnauthorized)
 			return
 		}
+
+		// If unexpected error
 		httpo.NewErrorResponse(500, "failed to verify and get paseto").Send(c, 500)
 		return
 	} else {
+
 		payload := AuthenticatePayload{
 			Token: pasetoToken,
 		}
-		httpo.NewSuccessResponse(http.StatusOK, "Token generated successfully", payload).Send(c, http.StatusOK)
+		httpo.NewSuccessResponse(http.StatusOK, "Token generated successfully", payload).
+			Send(c, http.StatusOK)
 	}
 }

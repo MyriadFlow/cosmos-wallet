@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// ApplyRoutes Use the given Routes
+// ApplyRoutes applies the /v1.0 group and all child routes to given gin RouterGroup
 func ApplyRoutes(r *gin.RouterGroup) {
 	v1 := r.Group("/v1.0")
 	{

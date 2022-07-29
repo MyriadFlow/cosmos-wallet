@@ -1,3 +1,4 @@
+// Package arbitraryverify provides methods to verify signatures signed with Arbitrary message
 package arbitraryverify
 
 import sdk "github.com/cosmos/cosmos-sdk/types"

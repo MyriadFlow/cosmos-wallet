@@ -1,3 +1,4 @@
+// Package blockchain_cosmos defines methods to manage keys and transactions related to cosmos based chain
 package blockchain_cosmos
 
 import (
@@ -8,6 +9,7 @@ import (
 	"github.com/tyler-smith/go-bip39"
 )
 
+// GenerateMnemonic generates 24 word mnemonic
 func GenerateMnemonic() (*string, error) {
 	// Generate a mnemonic for memorization or user-friendly seeds
 	entropy, err := bip39.NewEntropy(256)
@@ -21,8 +23,8 @@ func GenerateMnemonic() (*string, error) {
 	return &mnemonic, nil
 }
 
-//Returns private key for given mnemonic and cosmos path "m/44'/118'/0'/0/0"
-func GetWallet(mnemonic string) (*secp256k1.PrivKey, error) {
+// GetPrivKey returns private key for given mnemonic and cosmos path "m/44'/118'/0'/0/0"
+func GetPrivKey(mnemonic string) (*secp256k1.PrivKey, error) {
 	derivationPath := "m/44'/118'/0'/0/0"
 	privKeyBytes, err := hd.Secp256k1.Derive()(mnemonic, "", derivationPath)
 	if err != nil {

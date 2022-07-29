@@ -1,3 +1,4 @@
+// Package walletaddress provides method to get wallet address from public key
 package walletaddress
 
 import (
@@ -9,7 +10,7 @@ import (
 	"golang.org/x/crypto/ripemd160"
 )
 
-// Returns bech32 wallet address from secp256k1.PubKey and with provided hrp
+// GetWalletAddrFromPubKey returns bech32 wallet address from secp256k1.PubKey and with provided hrp
 func GetWalletAddrFromPubKey(hrp string, publicKey secp256k1.PubKey) (string, error) {
 	pubKey_shasha256 := sha256.Sum256(publicKey.Bytes())
 	pubKey_shasha256_ripemd160 := ripemd160.New()

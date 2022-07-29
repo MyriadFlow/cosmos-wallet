@@ -1,3 +1,4 @@
+// Package user provides model, methods and hooks to manage user data
 package user
 
 import (
@@ -7,11 +8,13 @@ import (
 	"github.com/MyriadFlow/cosmos-wallet/custodial/pkg/store"
 )
 
+// CustodialUser custodial user model with id and mnemonic
 type CustodialUser struct {
 	Id       string `json:"-" gorm:"primaryKey;not null"`
 	Mnemonic string `json:"-" gorm:"unique;not null"`
 }
 
+// Add adds user with given id and mnemonic to database
 func Add(id string, mnemonic string) error {
 	db := store.DB
 	newUser := CustodialUser{
@@ -22,6 +25,7 @@ func Add(id string, mnemonic string) error {
 	return err
 }
 
+// Get returns user with given id from database
 func Get(id string) (*CustodialUser, error) {
 	db := store.DB
 	var user CustodialUser

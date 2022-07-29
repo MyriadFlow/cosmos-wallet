@@ -1,3 +1,4 @@
+// Package dbmigrate provides method to migrate models into database
 package dbmigrate
 
 import (

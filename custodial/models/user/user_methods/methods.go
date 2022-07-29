@@ -1,3 +1,4 @@
+// Package usermethods provides core methods for user logic
 package usermethods
 
 import (
@@ -11,12 +12,16 @@ import (
 	"github.com/google/uuid"
 )
 
-// Creates and stores mnemonic and returns public Key and user Id
+// Create creates and stores mnemonic and returns public Key and user Id
 func Create() (*cryptotypes.PubKey, string, error) {
+
+	// Generate mnemonic
 	mnemonic, err := blockchain_cosmos.GenerateMnemonic()
 	if err != nil {
 		return nil, "", fmt.Errorf("failed to generate mnemonic: %w", err)
 	}
+
+	// Generate user id
 	uid := uuid.NewString()
 
 	err = user.Add(uid, *mnemonic)
@@ -24,15 +29,17 @@ func Create() (*cryptotypes.PubKey, string, error) {
 		return nil, "", fmt.Errorf("failed to add user into database: %w", err)
 	}
 
-	privKey, err := blockchain_cosmos.GetWallet(*mnemonic)
+	// Get private key from mnemonic
+	privKey, err := blockchain_cosmos.GetPrivKey(*mnemonic)
 	if err != nil {
 		return nil, "", fmt.Errorf("failed to get privateKey for mnemonic: %w", err)
 	}
+
 	pubKey := privKey.PubKey()
 	return &pubKey, uid, nil
 }
 
-// Creates transfer request for user using private key, returns transaction hash and error if any
+// Transfer creates transfer request for user using private key, returns transaction hash and error if any
 func Transfer(uid string, from string, to string, amount int64) (txHash string, erR error) {
 	user, err := user.Get(uid)
 	if err != nil {
@@ -48,11 +55,14 @@ func Transfer(uid string, from string, to string, amount int64) (txHash string, 
 	if err != nil {
 		return "", fmt.Errorf("failed to get to address: %w", err)
 	}
-	privKey, err := blockchain_cosmos.GetWallet(user.Mnemonic)
+
+	// Get private key from mnemonic
+	privKey, err := blockchain_cosmos.GetPrivKey(user.Mnemonic)
 	if err != nil {
 		return "", fmt.Errorf("failed to get private key: %w", err)
 	}
 
+	// Create transfer request
 	hash, err := blockchain_cosmos.Transfer(&blockchain_cosmos.TransferParams{
 		FromAddr: fromAddr,
 		ToAddr:   toAddr,
@@ -66,5 +76,6 @@ func Transfer(uid string, from string, to string, amount int64) (txHash string, 
 		return "", err
 	}
 
-	return hash, err
+	// Return transaction hash
+	return hash, nil
 }

@@ -16,7 +16,8 @@ import (
 var ErrSignDenied = errors.New("signature denied")
 var ErrPubKeyDenied = errors.New("public key denied")
 
-// Verifies the signature for given flowID and returns paseto if it is valid
+// VerifySignAndGetPaseto verifies the signature for given flowID and returns paseto if it is valid
+//
 // Also deletes the flow id after approving signature
 func VerifySignAndGetPaseto(publicKey secp256k1.PubKey, signatureBase64 string, flowId string) (string, error) {
 

@@ -2,28 +2,36 @@ package httpo
 
 import "github.com/gin-gonic/gin"
 
+// ApiResponse defines struct used for http response
 type ApiResponse struct {
-	StatusCode int         `json:"status,omitempty"`
-	Error      string      `json:"error,omitempty"`
-	Message    string      `json:"message,omitempty"`
-	Payload    interface{} `json:"payload,omitempty"`
+	// Custom status code
+	StatusCode int `json:"status,omitempty"`
+
+	Error string `json:"error,omitempty"`
+
+	// Message in case of success
+	Message string      `json:"message,omitempty"`
+	Payload interface{} `json:"payload,omitempty"`
 }
 
+// Sends ApiResponse with gin context and standard statusCode
 func (apiRes *ApiResponse) Send(c *gin.Context, statusCode int) {
 	c.JSON(statusCode, apiRes)
 }
 
-func NewSuccessResponse(statusCode int, message string, payload interface{}) *ApiResponse {
+// NewSuccessResponse returns ApiResponse for success
+func NewSuccessResponse(customStatusCode int, message string, payload interface{}) *ApiResponse {
 	return &ApiResponse{
-		StatusCode: statusCode,
+		StatusCode: customStatusCode,
 		Message:    message,
 		Payload:    payload,
 	}
 }
 
-func NewErrorResponse(statusCode int, errorStr string) *ApiResponse {
+// NewSuccessResponse returns ApiResponse for error
+func NewErrorResponse(customStatusCode int, errorStr string) *ApiResponse {
 	return &ApiResponse{
-		StatusCode: statusCode,
+		StatusCode: customStatusCode,
 		Error:      errorStr,
 	}
 }

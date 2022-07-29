@@ -1,3 +1,4 @@
+// Package paseto provides methods to generate and verify paseto tokens
 package paseto
 
 import (

@@ -1,3 +1,4 @@
+// Package store defines global variables
 package store
 
 import (

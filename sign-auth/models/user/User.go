@@ -8,11 +8,13 @@ import (
 	"github.com/MyriadFlow/cosmos-wallet/sign-auth/pkg/store"
 )
 
+// CustodialUser custodial user model with wallet address and one to many relation with FlowId
 type User struct {
 	WalletAddress string          `json:"-" gorm:"primaryKey;not null"`
 	FlowId        []flowid.FlowId `gorm:"foreignkey:WalletAddress" json:"-"`
 }
 
+// Add adds user with given wallet address to database
 func Add(walletAddress string) error {
 	db := store.DB
 	newUser := User{
@@ -22,6 +24,7 @@ func Add(walletAddress string) error {
 	return err
 }
 
+// Get returns user with given wallet address from database
 func Get(walletAddr string) (*User, error) {
 	db := store.DB
 	var user User

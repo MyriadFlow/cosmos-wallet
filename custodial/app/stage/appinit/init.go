@@ -1,3 +1,4 @@
+// Package appinit provides method to Init all stages of app
 package appinit
 
 import (

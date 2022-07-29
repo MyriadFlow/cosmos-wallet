@@ -1,3 +1,4 @@
+// Package create provides Api methods to create user wallet and store the mnemonic in database
 package create
 
 import (
@@ -10,7 +11,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// ApplyRoutes applies router to gin Router
+// ApplyRoutes applies /authenticate to gin RouterGroup
 func ApplyRoutes(r *gin.RouterGroup) {
 	g := r.Group("/authenticate")
 	{
@@ -26,6 +27,7 @@ func create(c *gin.Context) {
 		return
 	}
 
+	// Convert the public key to base64 to send it as JSON
 	pubKeyBase64 := base64.StdEncoding.EncodeToString((*pubKey).Bytes())
 	payload := CreatePayload{
 		UserId:    userId,

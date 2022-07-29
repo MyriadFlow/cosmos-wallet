@@ -6,7 +6,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/crypto/keys/secp256k1"
 )
 
-// Verifies arbitrary adr036 message by first
+// VerifyArbitraryMsg verifies arbitrary Adr036 message by first
 // composing it with the 0 values required and
 // then verifying it against public key
 func VerifyArbitraryMsg(signer string, msg string, signature []byte, publicKey secp256k1.PubKey) (bool, error) {

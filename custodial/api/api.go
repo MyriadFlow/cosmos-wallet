@@ -1,3 +1,4 @@
+// Package Api provide support to create /api group
 package api
 
 import (
@@ -6,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// ApplyRoutes Apply the given Routes
+// ApplyRoutes applies the /api group and v1 routes to given gin Engine
 func ApplyRoutes(r *gin.Engine) {
 	api := r.Group("/api")
 	{

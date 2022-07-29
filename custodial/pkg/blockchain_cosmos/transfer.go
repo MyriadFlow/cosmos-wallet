@@ -19,6 +19,8 @@ import (
 	"google.golang.org/grpc"
 )
 
+// TransferParams defines transfer request containing from address, to address, private key
+// denom and amount
 type TransferParams struct {
 	FromAddr sdk.AccAddress
 	ToAddr   sdk.AccAddress
@@ -27,13 +29,12 @@ type TransferParams struct {
 	Amount   int64
 }
 
-type txHash string
-
-// Signs transfer request and returns tx hash or error if any
+// Transfer signs transfer request and returns tx hash or error if any
 func Transfer(p *TransferParams) (string, error) {
+	// Connect to gRPC server
 	grpcServerUrl := env.MustGetEnv("NODE_GRPC_URL")
 	grpcConn, err := grpc.Dial(
-		grpcServerUrl,       // Or your gRPC server address.
+		grpcServerUrl,
 		grpc.WithInsecure(), // The Cosmos SDK doesn't support any transport security mechanism.
 	)
 	if err != nil {
@@ -41,22 +42,12 @@ func Transfer(p *TransferParams) (string, error) {
 		return "", err
 	}
 	defer grpcConn.Close()
-	queryClient := apiAuth.NewQueryClient(grpcConn)
-	accountQueryRes, err := queryClient.Account(context.Background(), &apiAuth.QueryAccountRequest{
-		Address: p.FromAddr.String(),
-	})
-	if err != nil {
-		err = fmt.Errorf("failed to create auth query client: %w", err)
-		return "", err
-	}
-	var baseAccount apiAuth.BaseAccount
-	err = accountQueryRes.GetAccount().UnmarshalTo(&baseAccount)
-	if err != nil {
-		err = fmt.Errorf("failed to get account details: %w", err)
-		return "", err
-	}
+
+	// Create new send transaction message
 	trasactionMsg := banktypes.NewMsgSend(p.FromAddr, p.ToAddr, sdk.NewCoins(sdk.NewInt64Coin(p.Denom, p.Amount)))
 	encCfg := simapp.MakeTestEncodingConfig()
+
+	// Create transaction builder and set transaction message
 	txBuilder := encCfg.TxConfig.NewTxBuilder()
 	err = txBuilder.SetMsgs(trasactionMsg)
 	if err != nil {
@@ -64,14 +55,19 @@ func Transfer(p *TransferParams) (string, error) {
 		return "", err
 	}
 
+	// TODO: check parse int output
+	// Get gas limit from environment
 	gasLimit, err := strconv.ParseUint(env.MustGetEnv("GAS_LIMIT"), 10, 64)
 	if err != nil {
 		err = fmt.Errorf("failed to parse uint from env string for gas limit: %w", err)
 		return "", err
 	}
 	txBuilder.SetGasLimit(gasLimit)
+
+	//TODO: check fee amount
 	txBuilder.SetFeeAmount(sdk.NewCoins(sdk.NewInt64Coin(env.MustGetEnv("SMALLEST_DENOM"), 1)))
 
+	// Create base tendermint clinet to query latest block
 	baseTendermintClient := apiBaseTendermint.NewServiceClient(grpcConn)
 	getLatestBlockRes, err := baseTendermintClient.GetLatestBlock(context.Background(), &apiBaseTendermint.GetLatestBlockRequest{})
 	if err != nil {
@@ -79,8 +75,16 @@ func Transfer(p *TransferParams) (string, error) {
 		return "", err
 	}
 
+	// Set timeout height to latest+100
 	timeOutHeight := getLatestBlockRes.Block.Header.Height + 100
 	txBuilder.SetTimeoutHeight(uint64(timeOutHeight))
+
+	// Get BaseAccount for account number and sequence
+	baseAccount, err := getAccountDetails(p.FromAddr, grpcConn)
+	if err != nil {
+		err = fmt.Errorf("failed to get base account details: %w", err)
+		return "", err
+	}
 	sigV2 := signing.SignatureV2{
 		PubKey: p.PrivKey.PubKey(),
 		Data: &signing.SingleSignatureData{
@@ -141,4 +145,27 @@ func Transfer(p *TransferParams) (string, error) {
 		return "", err
 	}
 	return grpcRes.TxResponse.TxHash, nil
+}
+
+// getAccountDetails returns BaseAccount for given wallet address
+func getAccountDetails(walletAddress sdk.Address, grpcConn *grpc.ClientConn) (*apiAuth.BaseAccount, error) {
+	// Initiat new query client to query account details
+	queryClient := apiAuth.NewQueryClient(grpcConn)
+	accountQueryRes, err := queryClient.Account(context.Background(), &apiAuth.QueryAccountRequest{
+		Address: walletAddress.String(),
+	})
+	if err != nil {
+		err = fmt.Errorf("failed to create auth query client: %w", err)
+		return nil, err
+	}
+
+	var baseAccount apiAuth.BaseAccount
+	// Unmarshal proto bytes into BaseAccount
+	err = accountQueryRes.GetAccount().UnmarshalTo(&baseAccount)
+	if err != nil {
+		err = fmt.Errorf("failed to unmarshal proto bytes into BaseAccount: %w", err)
+		return nil, err
+	}
+
+	return &baseAccount, nil
 }

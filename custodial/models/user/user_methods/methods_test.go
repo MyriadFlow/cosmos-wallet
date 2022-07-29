@@ -7,9 +7,9 @@ import (
 
 	"github.com/MyriadFlow/cosmos-wallet/custodial/app/stage/appinit"
 	"github.com/MyriadFlow/cosmos-wallet/custodial/models/user"
+	"github.com/MyriadFlow/cosmos-wallet/custodial/pkg/blockchain_cosmos"
 	"github.com/MyriadFlow/cosmos-wallet/custodial/pkg/store"
 	"github.com/MyriadFlow/cosmos-wallet/custodial/pkg/testingcommon"
-	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 )
@@ -18,18 +18,19 @@ func Test_Create_Get(t *testing.T) {
 	appinit.Init()
 	t.Cleanup(testingcommon.DeleteCreatedEntities())
 	var (
-		uid    string
-		err    error
-		pubKey *cryptotypes.PubKey
+		uid          string
+		err          error
+		base64PubKey string
 	)
 	t.Run("create user", func(t *testing.T) {
-		pubKey, uid, err = Create()
+		pubKey, _uid, err := Create()
 		if err != nil {
 			t.Fatal(err)
 		}
+		uid = _uid
 
-		base64PubKey := base64.StdEncoding.EncodeToString((*pubKey).Bytes())
-		assert.Len(t, uid, 36)
+		base64PubKey = base64.StdEncoding.EncodeToString((*pubKey).Bytes())
+		assert.Len(t, _uid, 36)
 		assert.Len(t, base64PubKey, 44)
 	})
 
@@ -38,6 +39,9 @@ func Test_Create_Get(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
+		privKey, err := blockchain_cosmos.GetPrivKey(fetchedUser.Mnemonic)
+		_base64PubKey := base64.StdEncoding.EncodeToString(privKey.PubKey().Bytes())
+		assert.Equal(t, base64PubKey, _base64PubKey)
 		assert.Equal(t, fetchedUser.Id, uid)
 	})
 

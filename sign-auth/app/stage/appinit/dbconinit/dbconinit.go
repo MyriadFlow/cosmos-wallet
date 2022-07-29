@@ -1,3 +1,4 @@
+// Package dbconinit provides method to Init database
 package dbconinit
 
 import (
@@ -30,12 +31,16 @@ func Init() {
 		logo.Fatal("failed to connect database", err)
 	}
 
+	// Store database in global store
 	store.DB = db
 
+	// Get underlying sql database to ping it
 	sqlDb, err := db.DB()
 	if err != nil {
 		logo.Fatal("failed to ping database", err)
 	}
+
+	// If ping fails then log error and exit
 	if err = sqlDb.Ping(); err != nil {
 		logo.Fatal("failed to ping database", err)
 	}

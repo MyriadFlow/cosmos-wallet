@@ -1,3 +1,4 @@
+// Package environment provides way to define and get environment
 package environment
 
 import (
@@ -13,6 +14,8 @@ const (
 	DEV  Environment = iota
 )
 
+// GetEnvironment returns environment from env variable and fatals if it is different from
+// PROD and DEV
 func GetEnvironment() Environment {
 	appEnv := env.MustGetEnv("APP_ENVIRONMENT")
 

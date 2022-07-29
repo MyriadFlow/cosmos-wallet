@@ -12,7 +12,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func Test_PostAuthenticate(t *testing.T) {
+func Test_PostCreate(t *testing.T) {
 	appinit.Init()
 	t.Cleanup(testingcommon.DeleteCreatedEntities())
 
@@ -21,7 +21,7 @@ func Test_PostAuthenticate(t *testing.T) {
 		rr := httptest.NewRecorder()
 		c, _ := gin.CreateTestContext(rr)
 		create(c)
-		assert.Equal(t, http.StatusOK, rr.Code, rr.Body.String())
+		assert.Equal(t, http.StatusOK, rr.Result().StatusCode, "status code not 200 (OK), body: %s", rr.Body)
 	})
 
 }

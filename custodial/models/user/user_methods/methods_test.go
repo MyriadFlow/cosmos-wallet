@@ -30,8 +30,8 @@ func Test_Create_Get(t *testing.T) {
 		uid = _uid
 
 		base64PubKey = base64.StdEncoding.EncodeToString((*pubKey).Bytes())
-		assert.Len(t, _uid, 36)
-		assert.Len(t, base64PubKey, 44)
+		assert.Len(t, _uid, 36, "length of user id should be 36")
+		assert.Len(t, base64PubKey, 44, "length of base64 public key should be 44")
 	})
 
 	t.Run("get user", func(t *testing.T) {
@@ -41,8 +41,8 @@ func Test_Create_Get(t *testing.T) {
 		}
 		privKey, err := blockchain_cosmos.GetPrivKey(fetchedUser.Mnemonic)
 		_base64PubKey := base64.StdEncoding.EncodeToString(privKey.PubKey().Bytes())
-		assert.Equal(t, base64PubKey, _base64PubKey)
-		assert.Equal(t, fetchedUser.Id, uid)
+		assert.Equal(t, base64PubKey, _base64PubKey, "public key retured is wrong")
+		assert.Equal(t, fetchedUser.Id, uid, "user id is wrong")
 	})
 
 	t.Run("transfer atom", func(t *testing.T) {

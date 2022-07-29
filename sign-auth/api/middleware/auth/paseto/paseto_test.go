@@ -39,7 +39,7 @@ func Test_PASETO(t *testing.T) {
 			t.Fatal(err)
 		}
 		rr := callApi(t, token)
-		assert.Equal(t, http.StatusOK, rr.Result().StatusCode)
+		assert.Equal(t, http.StatusOK, rr.Result().StatusCode, "status code should be 200 (OK), body: %s", rr.Body)
 	})
 
 	t.Run("Should return 401 with incorret PASETO", func(t *testing.T) {
@@ -50,7 +50,7 @@ func Test_PASETO(t *testing.T) {
 		}
 		os.Setenv("PASETO_PRIVATE_KEY", "other token as valid")
 		rr := callApi(t, token)
-		assert.Equal(t, http.StatusUnauthorized, rr.Result().StatusCode)
+		assert.Equal(t, http.StatusUnauthorized, rr.Result().StatusCode, "status code should be 401 (Unauthorized), body: %s", rr.Body)
 	})
 
 	t.Run("Should return 401 for deleted user", func(t *testing.T) {
@@ -61,7 +61,7 @@ func Test_PASETO(t *testing.T) {
 			t.Fatal(err)
 		}
 		rr := callApi(t, token)
-		assert.Equal(t, http.StatusUnauthorized, rr.Result().StatusCode)
+		assert.Equal(t, http.StatusUnauthorized, rr.Result().StatusCode, "status code should be 401 (Unauthorized), body: %s", rr.Body)
 	})
 
 	t.Run("Should return 401 and 4011 with expired PASETO", func(t *testing.T) {
@@ -72,14 +72,14 @@ func Test_PASETO(t *testing.T) {
 		time.Sleep(time.Second * 4)
 
 		rr := callApi(t, token)
-		assert.Equal(t, http.StatusUnauthorized, rr.Result().StatusCode)
+		assert.Equal(t, http.StatusUnauthorized, rr.Result().StatusCode, "status code should be 401 (Unauthorized), body: %s", rr.Body)
 		var response httpo.ApiResponse
 		body := rr.Body
 		err = json.NewDecoder(body).Decode(&response)
 		if err != nil {
 			t.Fatal(err)
 		}
-		assert.Equal(t, httpo.TokenExpired, response.StatusCode)
+		assert.Equal(t, httpo.TokenExpired, response.StatusCode, "api response status code should be 4031 (TokenExpired), body: %s", rr.Body)
 	})
 
 }

@@ -40,7 +40,7 @@ func Test_PostAuthenticate(t *testing.T) {
 		}
 		c.Request = req
 		getWallet(c)
-		assert.Equal(t, http.StatusOK, rr.Code, rr.Body.String())
+		assert.Equal(t, http.StatusOK, rr.Code, "status code should be 200 (OK), body: %s", rr.Body)
 	})
 
 }

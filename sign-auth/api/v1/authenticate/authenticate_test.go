@@ -48,7 +48,7 @@ func Test_PostAuthenticate(t *testing.T) {
 		c, _ := gin.CreateTestContext(rr)
 		c.Request = req
 		authenticate(c)
-		assert.Equal(t, http.StatusOK, rr.Code, rr.Body.String())
+		assert.Equal(t, http.StatusOK, rr.Result().StatusCode, rr.Body.String(), "status code should be 200 (OK), body: %s", rr.Body)
 	})
 	t.Run("Should return 401 with different wallet address", func(t *testing.T) {
 		testWallet := testingcommon.GenerateWallet()
@@ -72,7 +72,7 @@ func Test_PostAuthenticate(t *testing.T) {
 		c, _ := gin.CreateTestContext(rr)
 		c.Request = req
 		authenticate(c)
-		assert.Equal(t, http.StatusUnauthorized, rr.Code, rr.Body.String())
+		assert.Equal(t, http.StatusUnauthorized, rr.Result().StatusCode, rr.Body.String(), "status code should be 401 (Unauthorized), body: %s", rr.Body)
 	})
 
 }
@@ -96,7 +96,7 @@ func callFlowIdApi(walletAddress string, t *testing.T) (eula string, flowidStrin
 	c, _ := gin.CreateTestContext(rr)
 	c.Request = req
 	flowid.GetFlowId(c)
-	assert.Equalf(t, http.StatusOK, rr.Code, "Failed to call flowApi: %s", rr.Body.String())
+	assert.Equal(t, http.StatusOK, rr.Result().StatusCode, "status code should be 200 (OK), body: %s", rr.Body)
 	var flowIdPayload flowid.GetFlowIdPayload
 	var res httpo.ApiResponse
 	decoder := json.NewDecoder(rr.Result().Body)

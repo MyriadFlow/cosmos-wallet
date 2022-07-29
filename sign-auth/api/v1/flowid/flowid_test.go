@@ -35,7 +35,7 @@ func Test_GetFlowId(t *testing.T) {
 			c, _ := gin.CreateTestContext(rr)
 			c.Request = req
 			GetFlowId(c)
-			assert.Equal(t, http.StatusBadRequest, rr.Result().StatusCode)
+			assert.Equal(t, http.StatusBadRequest, rr.Result().StatusCode, "status code should be 400 (BadRequest), body: %s", rr.Body)
 		})
 
 		t.Run("wallet address is not valid bech32", func(t *testing.T) {
@@ -51,7 +51,7 @@ func Test_GetFlowId(t *testing.T) {
 			c, _ := gin.CreateTestContext(rr)
 			c.Request = req
 			GetFlowId(c)
-			assert.Equal(t, http.StatusBadRequest, rr.Result().StatusCode)
+			assert.Equal(t, http.StatusBadRequest, rr.Result().StatusCode, "status code should be 400 (BadRequest), body: %s", rr.Body)
 		})
 
 	})
@@ -69,7 +69,7 @@ func Test_GetFlowId(t *testing.T) {
 		c, _ := gin.CreateTestContext(rr)
 		c.Request = req
 		GetFlowId(c)
-		assert.Equal(t, http.StatusOK, rr.Result().StatusCode)
+		assert.Equal(t, http.StatusOK, rr.Result().StatusCode, "status code should be 200 (OK), body: %s", rr.Body)
 	})
 
 }

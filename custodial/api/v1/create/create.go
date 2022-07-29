@@ -23,7 +23,8 @@ func create(c *gin.Context) {
 	pubKey, userId, err := usermethods.Create()
 	if err != nil {
 		logo.Errorf("failed to create user: %s", err)
-		c.String(http.StatusInternalServerError, "failed to create user")
+		httpo.NewErrorResponse(500, "failed to create user").
+			Send(c, 500)
 		return
 	}
 

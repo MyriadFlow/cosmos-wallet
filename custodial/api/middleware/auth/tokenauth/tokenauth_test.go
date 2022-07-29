@@ -19,13 +19,14 @@ func Test_TOKENAUTH(t *testing.T) {
 	t.Run("Should return 200 with correct TOKEN", func(t *testing.T) {
 		token := env.MustGetEnv("AUTH_TOKEN")
 		rr := callApi(t, token)
-		assert.Equal(t, http.StatusOK, rr.Result().StatusCode)
+		assert.Equal(t, http.StatusOK, rr.Result().StatusCode, "status code not 200 (OK), body: %s", rr.Body)
 	})
 
 	t.Run("Should return 401 with incorret TOKEN", func(t *testing.T) {
 		token := "some invalid token"
 		rr := callApi(t, token)
-		assert.Equal(t, http.StatusUnauthorized, rr.Result().StatusCode)
+		assert.Equal(t, http.StatusUnauthorized, rr.Result().StatusCode, "status code should be 401 (Unauthorized), body: %s", rr.Body)
+
 	})
 }
 

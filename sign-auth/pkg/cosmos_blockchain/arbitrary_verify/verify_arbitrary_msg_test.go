@@ -25,5 +25,5 @@ func Test_VerifyArbitraryMsg(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	assert.True(t, stat)
+	assert.True(t, stat, "verify result should be true")
 }

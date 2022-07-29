@@ -16,7 +16,7 @@ func Test_GetWalletAddr(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	assert.Equal(t, expectedHexPrivKey, hex.EncodeToString(privKey.Bytes()))
+	assert.Equal(t, expectedHexPrivKey, hex.EncodeToString(privKey.Bytes()), "private key is wrong")
 }
 
 func Test_GenerateMnemonic(t *testing.T) {

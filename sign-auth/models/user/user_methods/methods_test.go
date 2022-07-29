@@ -16,7 +16,7 @@ func Test_Create_Get(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		assert.Len(t, flowId, 36)
+		assert.Len(t, flowId, 36, "flowid should be of 36 charactors")
 	})
 
 	t.Run("Should create flow Id for existing user", func(t *testing.T) {
@@ -24,7 +24,7 @@ func Test_Create_Get(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		assert.Len(t, flowId, 36)
+		assert.Len(t, flowId, 36, "flowid should be of 36 charactors")
 	})
 
 }

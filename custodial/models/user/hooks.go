@@ -4,6 +4,7 @@ import (
 	"encoding/hex"
 	"strings"
 
+	"github.com/MyriadFlow/cosmos-wallet/helpers/logo"
 	"gorm.io/gorm"
 )
 
@@ -19,6 +20,7 @@ func (u *CustodialUser) AfterFind(tx *gorm.DB) (err error) {
 	hexStringWithout0x := strings.TrimPrefix(u.Mnemonic, "0x")
 	plainMnemonic, err := hex.DecodeString(hexStringWithout0x)
 	if err != nil {
+		logo.Errorf("AfterFind: failed to decode mnemonic from hex")
 		return err
 	}
 	u.Mnemonic = string(plainMnemonic)

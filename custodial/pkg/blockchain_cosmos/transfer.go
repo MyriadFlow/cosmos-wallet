@@ -84,6 +84,9 @@ func Transfer(p *TransferParams) (string, error) {
 		err = fmt.Errorf("failed to get base account details: %w", err)
 		return "", err
 	}
+
+	// First round: we gather all the signer info. We use the "set empty
+	// signature" hack to do that.
 	sigV2 := signing.SignatureV2{
 		PubKey: p.PrivKey.PubKey(),
 		Data: &signing.SingleSignatureData{
@@ -99,6 +102,7 @@ func Transfer(p *TransferParams) (string, error) {
 		return "", err
 	}
 
+	// Second round: all signer infos are set, so signer can sign.
 	signerData := xauthsigning.SignerData{
 		ChainID:       env.MustGetEnv("CHAIN_ID"),
 		AccountNumber: baseAccount.AccountNumber,

@@ -55,7 +55,6 @@ func Transfer(p *TransferParams) (string, error) {
 		return "", err
 	}
 
-	// TODO: check parse int output
 	// Get gas limit from environment
 	gasLimit, err := strconv.ParseUint(env.MustGetEnv("GAS_LIMIT"), 10, 64)
 	if err != nil {

@@ -58,7 +58,7 @@ func Test_Create_Get(t *testing.T) {
 		}
 
 		user.Add(uid, mnemonic)
-		_, err := Transfer(uid, "cosmos1fzqqen9f9jwsc6x5v7hltdm4ctxhvpdvna8n3p", "cosmos1uuyak34fv767a65k9f4ms8jepcc2z5wswt5eg8", 1)
+		_, err := Transfer(uid, "mantle1uuyak34fv767a65k9f4ms8jepcc2z5wss00uhd", "mantle1ln7a3e2cesx5mhelhmaxk44sqsax4954ny9ya3", 1)
 		if err != nil {
 			t.Fatal(err)
 		}

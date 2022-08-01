@@ -1,5 +1,5 @@
-// Package create provides Api methods to get user wallet's public key
-package getwallet
+// Package wallet provides Api methods to get user wallet's public key
+package wallet
 
 import (
 	"encoding/base64"
@@ -8,6 +8,8 @@ import (
 
 	"github.com/MyriadFlow/cosmos-wallet/custodial/models/user"
 	"github.com/MyriadFlow/cosmos-wallet/custodial/pkg/blockchain_cosmos"
+	walletaddress "github.com/MyriadFlow/cosmos-wallet/custodial/pkg/blockchain_cosmos/wallet_address"
+	"github.com/MyriadFlow/cosmos-wallet/custodial/pkg/env"
 	"github.com/MyriadFlow/cosmos-wallet/custodial/pkg/errorso"
 	"github.com/MyriadFlow/cosmos-wallet/helpers/httpo"
 	"github.com/MyriadFlow/cosmos-wallet/helpers/logo"
@@ -57,10 +59,20 @@ func getWallet(c *gin.Context) {
 		return
 	}
 
+	pubKey := privKey.PubKey()
 	// Convert the public key to base64 to send it as JSON
-	pubKeyBase64 := base64.StdEncoding.EncodeToString(privKey.PubKey().Bytes())
+	pubKeyBase64 := base64.StdEncoding.EncodeToString(pubKey.Bytes())
+
+	userWalletAddr, err := walletaddress.GetWalletAddrFromPubKey(env.MustGetEnv("WALLET_ADDRESS_HRP"), pubKey)
+	if err != nil {
+		logo.Errorf("failed to get wallet address from public key of user with id %s: %s", req.UserId, err)
+		httpo.NewErrorResponse(http.StatusInternalServerError, "failed to get user walletaddress").
+			Send(c, http.StatusInternalServerError)
+		return
+	}
 	payload := GetWalletPayload{
-		PublicKey: pubKeyBase64,
+		PublicKey:  pubKeyBase64,
+		WalletAddr: userWalletAddr,
 	}
 
 	httpo.NewSuccessResponse(http.StatusOK, "User fetched successfully", payload).

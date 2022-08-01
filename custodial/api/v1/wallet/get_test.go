@@ -1,4 +1,4 @@
-package getwallet
+package wallet
 
 import (
 	"bytes"

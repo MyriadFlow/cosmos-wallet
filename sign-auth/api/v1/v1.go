@@ -13,9 +13,9 @@ import (
 func ApplyRoutes(r *gin.RouterGroup) {
 	v1 := r.Group("/v1.0")
 	{
-		v1.Use(pasetomiddleware.PASETO)
 		flowid.ApplyRoutes(v1)
 		authenticate.ApplyRoutes(v1)
 		healthcheck.ApplyRoutes(v1)
+		v1.Use(pasetomiddleware.PASETO)
 	}
 }

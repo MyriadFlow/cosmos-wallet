@@ -75,6 +75,6 @@ func getWallet(c *gin.Context) {
 		WalletAddr: userWalletAddr,
 	}
 
-	httpo.NewSuccessResponse(http.StatusOK, "User fetched successfully", payload).
+	httpo.NewSuccessResponse(http.StatusOK, "Wallet fetched successfully", payload).
 		Send(c, http.StatusOK)
 }

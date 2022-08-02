@@ -1,3 +1,4 @@
+// Package tokenauthmiddleware defines middleware to verify TOKEN configured in env `AUTH_TOKEN`
 package tokenauthmiddleware
 
 import (

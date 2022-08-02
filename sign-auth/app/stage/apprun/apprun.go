@@ -1,3 +1,4 @@
+// Package apprun provides method to Start http server of gin
 package apprun
 
 import (

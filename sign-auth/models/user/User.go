@@ -1,3 +1,4 @@
+// Package user provides model and methods for storing and retriving user identified by wallet address
 package user
 
 import (

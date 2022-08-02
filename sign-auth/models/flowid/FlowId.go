@@ -1,3 +1,4 @@
+// Package flowid provides model and methods for storing and retriving flowid for wallet address
 package flowid
 
 import (

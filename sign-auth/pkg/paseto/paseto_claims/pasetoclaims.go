@@ -1,4 +1,4 @@
-// Package paseto claims provides claim declaration for token generation and verification
+// Package pasetoclaims provides claim declaration for token generation and verification
 package pasetoclaims
 
 import (

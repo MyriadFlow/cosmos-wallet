@@ -1,3 +1,4 @@
+// Package pasetomiddleware defines middleware to verify PASETO token with required claims
 package pasetomiddleware
 
 import (

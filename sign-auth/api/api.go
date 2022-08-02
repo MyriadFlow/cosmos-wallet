@@ -1,4 +1,4 @@
-// Package Api provide support to create /api group
+// Package api provide support to create /api group
 package api
 
 import (

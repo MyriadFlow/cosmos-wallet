@@ -16,6 +16,7 @@ import (
 	"github.com/MyriadFlow/cosmos-wallet/sign-auth/app/stage/appinit"
 	arbitraryverify "github.com/MyriadFlow/cosmos-wallet/sign-auth/pkg/cosmos_blockchain/arbitrary_verify"
 	"github.com/MyriadFlow/cosmos-wallet/sign-auth/pkg/testingcommon"
+	"github.com/google/uuid"
 
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
@@ -73,6 +74,34 @@ func Test_PostAuthenticate(t *testing.T) {
 		c.Request = req
 		authenticate(c)
 		assert.Equal(t, http.StatusUnauthorized, rr.Result().StatusCode, rr.Body.String(), "status code should be 401 (Unauthorized), body: %s", rr.Body)
+	})
+
+	t.Run("Should return 401 if flow ID doesn't exist", func(t *testing.T) {
+		testWallet := testingcommon.GenerateWallet()
+		eula, _ := callFlowIdApi(testWallet.WalletAddress, t)
+
+		// Non existance flow id
+		randomFlowId := uuid.NewString()
+		signature := getSignature(eula, randomFlowId, testWallet)
+		pubKeyBytes := testWallet.PrivKey.PubKey().Bytes()
+		pubKeyBase64 := base64.StdEncoding.EncodeToString(pubKeyBytes)
+		body := AuthenticateRequest{Signature: signature, FlowId: randomFlowId, PublicKey: pubKeyBase64}
+		jsonBody, err := json.Marshal(body)
+		if err != nil {
+			t.Fatal(err)
+		}
+		rr := httptest.NewRecorder()
+
+		//Request with signature created from correct wallet address
+		req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonBody))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		c, _ := gin.CreateTestContext(rr)
+		c.Request = req
+		authenticate(c)
+		assert.Equal(t, http.StatusNotFound, rr.Result().StatusCode, rr.Body.String(), "status code should be 404 (NotFound), body: %s", rr.Body)
 	})
 
 }

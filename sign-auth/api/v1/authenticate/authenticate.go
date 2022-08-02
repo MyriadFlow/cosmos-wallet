@@ -9,6 +9,7 @@ import (
 	"github.com/MyriadFlow/cosmos-wallet/helpers/httpo"
 	"github.com/MyriadFlow/cosmos-wallet/helpers/logo"
 	flowidmethods "github.com/MyriadFlow/cosmos-wallet/sign-auth/models/flowid/flowid_methods"
+	"github.com/MyriadFlow/cosmos-wallet/sign-auth/pkg/errorso"
 	"github.com/cosmos/cosmos-sdk/crypto/keys/secp256k1"
 	"github.com/gin-gonic/gin"
 )
@@ -51,6 +52,12 @@ func authenticate(c *gin.Context) {
 		if errors.Is(err, flowidmethods.ErrSignDenied) {
 			httpo.NewErrorResponse(httpo.SignatureDenied, "signature denied").
 				Send(c, http.StatusUnauthorized)
+			return
+		}
+
+		if errors.Is(err, errorso.ErrRecordNotFound) {
+			httpo.NewErrorResponse(httpo.FlowIdNotFound, "flow id not found").
+				Send(c, http.StatusNotFound)
 			return
 		}
 

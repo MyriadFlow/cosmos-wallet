@@ -55,6 +55,7 @@ func Test_GetFlowId(t *testing.T) {
 		})
 
 	})
+
 	t.Run("Should be able to get flow id", func(t *testing.T) {
 
 		q := url.Values{}

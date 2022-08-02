@@ -27,4 +27,7 @@ const (
 
 	// User trying to refer doesn't exist in database
 	UserNotFound = 4041
+
+	// FlowID trying to refer doesn't exist in database
+	FlowIdNotFound = 4042
 )

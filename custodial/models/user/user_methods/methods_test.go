@@ -19,7 +19,6 @@ func Test_Create_Get(t *testing.T) {
 	t.Cleanup(testingcommon.DeleteCreatedEntities())
 	var (
 		uid          string
-		err          error
 		base64PubKey string
 	)
 	t.Run("create user", func(t *testing.T) {
@@ -52,13 +51,13 @@ func Test_Create_Get(t *testing.T) {
 		//Clean before since the wallet address is not generated
 		db := store.DB
 		hexMnemonic := "0x" + hex.EncodeToString([]byte(mnemonic))
-		delRes := db.Where("mnemonic = ?", hexMnemonic).Delete(&user.CustodialUser{})
-		if delRes.Error != nil {
+		err := db.Where("mnemonic = ?", hexMnemonic).Delete(&user.CustodialUser{}).Error
+		if err != nil {
 			t.Fatal(err)
 		}
 
 		user.Add(uid, mnemonic)
-		_, err := Transfer(uid, "mantle1uuyak34fv767a65k9f4ms8jepcc2z5wss00uhd", "mantle1ln7a3e2cesx5mhelhmaxk44sqsax4954ny9ya3", 1)
+		_, err = Transfer(uid, "cosmos1fzqqen9f9jwsc6x5v7hltdm4ctxhvpdvna8n3p", "cosmos1uuyak34fv767a65k9f4ms8jepcc2z5wswt5eg8", 2)
 		if err != nil {
 			t.Fatal(err)
 		}

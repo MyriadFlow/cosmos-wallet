@@ -64,7 +64,7 @@ func Transfer(p *TransferParams) (string, error) {
 	txBuilder.SetGasLimit(gasLimit)
 
 	//TODO: check fee amount
-	txBuilder.SetFeeAmount(sdk.NewCoins(sdk.NewInt64Coin(env.MustGetEnv("SMALLEST_DENOM"), 1)))
+	// txBuilder.SetFeeAmount(sdk.NewCoins(sdk.NewInt64Coin(env.MustGetEnv("SMALLEST_DENOM"), 1)))
 
 	// Create base tendermint clinet to query latest block
 	baseTendermintClient := apiBaseTendermint.NewServiceClient(grpcConn)

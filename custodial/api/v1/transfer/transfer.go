@@ -33,7 +33,11 @@ func transfer(c *gin.Context) {
 	txHash, err := usermethods.Transfer(req.UserId, req.From, req.To, req.Amount)
 	if err != nil {
 		logo.Errorf("failed to transfer tokens for user with id %s: %s", req.UserId, err)
-
+		if errors.Is(err, errorso.ErrRecordNotFound) {
+			httpo.NewErrorResponse(httpo.UserNotFound, "user with given id not found").
+				Send(c, http.StatusNotFound)
+			return
+		}
 		if errors.Is(err, errorso.AccountNotFound) {
 			httpo.NewErrorResponse(httpo.AccountNotFound, "the account doesn't exist and therefore probably has 0 balance and no transaction").
 				Send(c, http.StatusNotFound)

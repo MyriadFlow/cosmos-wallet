@@ -4,8 +4,8 @@ workspaceLocation: cosmos-wallet/cosmos-wallet.code-workspace
 tasks:
   - init: |
       go install gotest.tools/gotestsum@latest
-      cd custodial && go get && cd -
-      cd sign-auth && go get && cd -
+      cd custodial && go get && cp .sample.env .env && cd -
+      cd sign-auth && go get && cp .sample.env .env && cd -
       exit
   - name: "[custodial] golang live"
     command: |

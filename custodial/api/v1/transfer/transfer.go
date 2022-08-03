@@ -2,9 +2,11 @@
 package transfer
 
 import (
+	"errors"
 	"net/http"
 
 	usermethods "github.com/MyriadFlow/cosmos-wallet/custodial/models/user/user_methods"
+	"github.com/MyriadFlow/cosmos-wallet/custodial/pkg/errorso"
 	"github.com/MyriadFlow/cosmos-wallet/helpers/httpo"
 	"github.com/MyriadFlow/cosmos-wallet/helpers/logo"
 	"github.com/gin-gonic/gin"
@@ -31,6 +33,12 @@ func transfer(c *gin.Context) {
 	txHash, err := usermethods.Transfer(req.UserId, req.From, req.To, req.Amount)
 	if err != nil {
 		logo.Errorf("failed to transfer tokens for user with id %s: %s", req.UserId, err)
+
+		if errors.Is(err, errorso.AccountNotFound) {
+			httpo.NewErrorResponse(httpo.AccountNotFound, "the account doesn't exist and therefore probably has 0 balance and no transaction").
+				Send(c, http.StatusNotFound)
+			return
+		}
 		httpo.NewErrorResponse(http.StatusInternalServerError, "failed to transfer tokens").
 			Send(c, http.StatusInternalServerError)
 		return

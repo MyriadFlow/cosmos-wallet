@@ -5,4 +5,5 @@ import "errors"
 
 var (
 	ErrRecordNotFound = errors.New("record not found")
+	AccountNotFound   = errors.New("account not found on chain")
 )

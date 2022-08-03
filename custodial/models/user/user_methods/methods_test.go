@@ -8,6 +8,7 @@ import (
 	"github.com/MyriadFlow/cosmos-wallet/custodial/app/stage/appinit"
 	"github.com/MyriadFlow/cosmos-wallet/custodial/models/user"
 	"github.com/MyriadFlow/cosmos-wallet/custodial/pkg/blockchain_cosmos"
+	"github.com/MyriadFlow/cosmos-wallet/custodial/pkg/errorso"
 	"github.com/MyriadFlow/cosmos-wallet/custodial/pkg/store"
 	"github.com/MyriadFlow/cosmos-wallet/custodial/pkg/testingcommon"
 	"github.com/google/uuid"
@@ -48,6 +49,7 @@ func Test_Create_Get(t *testing.T) {
 		uid = uuid.NewString()
 		// mnemonic with balance for testing transfer
 		mnemonic := "envelope rebel nerve sock change animal such hero pave bomb coffee invest misery detect enhance muffin stable bundle ski equal have shadow seed arena"
+
 		//Clean before since the wallet address is not generated
 		db := store.DB
 		hexMnemonic := "0x" + hex.EncodeToString([]byte(mnemonic))
@@ -61,5 +63,23 @@ func Test_Create_Get(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
+	})
+
+	t.Run("should return not found if address doesn't exist", func(t *testing.T) {
+		uid = uuid.NewString()
+		// mnemonic with balance for testing transfer
+		mnemonic := "lock possible diagram way until believe arm find frame catalog evolve narrow pulse sign viable"
+
+		//Clean before since the wallet address is not generated
+		db := store.DB
+		hexMnemonic := "0x" + hex.EncodeToString([]byte(mnemonic))
+		err := db.Where("mnemonic = ?", hexMnemonic).Delete(&user.CustodialUser{}).Error
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		user.Add(uid, mnemonic)
+		_, err = Transfer(uid, "cosmos1dmum8yt8cdyra9ferhfsm5xlltrv0cz526jjak", "cosmos1uuyak34fv767a65k9f4ms8jepcc2z5wswt5eg8", 2)
+		assert.ErrorIs(t, err, errorso.AccountNotFound)
 	})
 }

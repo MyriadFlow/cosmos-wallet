@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"github.com/MyriadFlow/cosmos-wallet/custodial/pkg/env"
+	"github.com/MyriadFlow/cosmos-wallet/custodial/pkg/errorso"
 	apiAuth "github.com/cosmos/cosmos-sdk/api/cosmos/auth/v1beta1"
 	apiBaseTendermint "github.com/cosmos/cosmos-sdk/api/cosmos/base/tendermint/v1beta1"
 	clienttx "github.com/cosmos/cosmos-sdk/client/tx"
@@ -17,6 +18,8 @@ import (
 	xauthsigning "github.com/cosmos/cosmos-sdk/x/auth/signing"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
+	grpcStatus "google.golang.org/grpc/status"
 )
 
 // TransferParams defines transfer request containing from address, to address, private key
@@ -144,7 +147,7 @@ func Transfer(p *TransferParams) (string, error) {
 		return "", err
 	}
 	if grpcRes.TxResponse.Code != 0 {
-		err = fmt.Errorf("transaction failed: %s", grpcRes.TxResponse.RawLog)
+		err = fmt.Errorf("transaction failed with status code %d: %s", grpcRes.TxResponse.Code, grpcRes.TxResponse.RawLog)
 		return "", err
 	}
 	return grpcRes.TxResponse.TxHash, nil
@@ -158,6 +161,9 @@ func getAccountDetails(walletAddress sdk.Address, grpcConn *grpc.ClientConn) (*a
 		Address: walletAddress.String(),
 	})
 	if err != nil {
+		if grpcStatus.Code(err) == codes.NotFound {
+			return nil, errorso.AccountNotFound
+		}
 		err = fmt.Errorf("failed to create auth query client: %w", err)
 		return nil, err
 	}

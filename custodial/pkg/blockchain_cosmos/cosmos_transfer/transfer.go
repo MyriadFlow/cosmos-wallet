@@ -87,7 +87,6 @@ func Transfer(p *TransacParams) (string, error) {
 		err = fmt.Errorf("failed to get gas fee using simulate transaction: %w", err)
 		return "", err
 	}
-	//TODO: check fee amount
 	txBuilder.SetFeeAmount(sdk.NewCoins(sdk.NewInt64Coin(env.MustGetEnv("SMALLEST_DENOM"), int64(simulateRes.GasInfo.GasUsed))))
 
 	txBytes, err = processSignature(txBuilder, p, encCfg, grpcConn)

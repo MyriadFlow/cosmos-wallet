@@ -3,6 +3,7 @@ package transfer
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 
 	usermethods "github.com/MyriadFlow/cosmos-wallet/custodial/models/user/user_methods"
@@ -43,7 +44,8 @@ func transfer(c *gin.Context) {
 				Send(c, http.StatusNotFound)
 			return
 		}
-		httpo.NewErrorResponse(http.StatusInternalServerError, "failed to transfer tokens").
+		err = fmt.Errorf("failed to transfer tokens: %w", err)
+		httpo.NewErrorResponse(http.StatusInternalServerError, err.Error()).
 			Send(c, http.StatusInternalServerError)
 		return
 	}

@@ -106,9 +106,4 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-// TODO remove replace
-replace github.com/MyriadFlow/cosmos-wallet/helpers/logo => ../helpers/logo
-
-replace github.com/MyriadFlow/cosmos-wallet/helpers/httpo => ../helpers/httpo
-
 replace github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.3-alpha.regen.1
